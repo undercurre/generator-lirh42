@@ -1,9 +1,8 @@
 var Generator = require('yeoman-generator')
 const figlet = require('figlet')
-const axios = require('axios')
 const { promisify } = require('util')
 const libconfig = require('../app/libconfig')
-const exec = promisify(require('child_process').exec)
+const downloadGitRepo = require('download-git-repo')
 
 module.exports = class extends Generator {
   // The name `constructor` is important here
@@ -96,7 +95,7 @@ module.exports = class extends Generator {
       const business = await this.prompt([
         {
           type: 'list',
-          name: 'purpose',
+          name: 'business',
           message: 'Select your purpose',
           choices: [
             {
@@ -155,32 +154,22 @@ module.exports = class extends Generator {
       },
     ])
     this.answers = {
+      purpose: hello.purpose,
       chose,
       config,
     }
   }
   async writing() {
-    const { owner, repo, branch } = libconfig[this.answers.chose] // 从用户的答案中获取 owner、repo 和 branch
+    console.log(this.answers)
+    // eslint-disable-next-line no-unused-vars
+    const { owner, repo, branch } =
+      libconfig[this.answers.purpose][this.answers.chose] // 从用户的答案中获取 owner、repo 和 branch
+    const url = `undercurre/teick#main`
+    const path = `./${this.answers.config.name}`
+    console.log(url, path)
+    const fetchMethod = promisify(downloadGitRepo)
 
-    try {
-      const response = await axios.get(
-        `https://api.github.com/repos/${owner}/${repo}/zipball/${branch}`
-      )
-      const downloadUrl = response.data.zipball_url
-
-      const tmpFolder = '.tmp'
-      await exec(`git clone ${downloadUrl} ${tmpFolder}`)
-
-      this.fs.copy(
-        `${this.destinationPath(tmpFolder)}/`,
-        this.destinationPath()
-      )
-
-      await exec(`rm -rf ${tmpFolder}`)
-
-      this.log('Code downloaded successfully.')
-    } catch (error) {
-      this.log(`Failed to download code from GitHub: ${error.message}`)
-    }
+    const res = await fetchMethod(url, path)
+    console.log(res)
   }
 }
