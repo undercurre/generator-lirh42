@@ -53,8 +53,8 @@ module.exports = class extends Generator {
     if (hello.purpose === 'basic') {
       const basic = await this.prompt([
         {
-          type: 'checkbox',
-          name: 'carrier',
+          type: 'list',
+          name: 'basic',
           message: 'Select your carrier',
           choices: [
             {
@@ -77,16 +77,6 @@ module.exports = class extends Generator {
               value: 'miniprogram',
               description: 'I need a miniprogram template',
             },
-            {
-              name: 'weex',
-              value: 'weex',
-              description: 'I need a miniprogram template',
-            },
-            {
-              name: 'flutter',
-              value: 'flutter',
-              description: 'I need a flutter template',
-            },
           ],
         },
       ])
@@ -108,16 +98,6 @@ module.exports = class extends Generator {
               name: 'questionnaire_online',
               value: 'questionnaire_online',
               description: 'A questionnaire with strapi online',
-            },
-            {
-              name: 'aromatherapy',
-              value: 'aromatherapy',
-              description: 'A car aromatherapy outline',
-            },
-            {
-              name: 'scale',
-              value: 'scale',
-              description: 'A body fat scale with weex in Meiju',
             },
           ],
         },
@@ -174,7 +154,7 @@ module.exports = class extends Generator {
       await fetchMethod(url, path)
       spinner.succeed()
     } catch (e) {
-      spinner.fail('Request failed, refetch ...')
+      spinner.fail('Request failed !')
     }
   }
 }

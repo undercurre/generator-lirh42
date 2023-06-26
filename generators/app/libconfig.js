@@ -1,6 +1,13 @@
 module.exports = {
   basic: {
-    web: { owner: 'undercurre', repo: 'metu-base', branch: 'main' },
+    web: {
+      owner: 'undercurre',
+      repo: 'Vue3-FamilyBucket-Starter',
+      branch: 'main',
+    },
+    app: { owner: 'undercurre', repo: 'uni-starter', branch: 'main' },
+    miniprogram: { owner: 'undercurre', repo: 'uni-starter', branch: 'main' },
+    desktop: { owner: 'undercurre', repo: 'electron-starter', branch: 'main' },
   },
   business: {
     questionnaire_outline: {
@@ -15,9 +22,14 @@ module.exports = {
     },
   },
   tool: {
+    cli: {
+      owner: 'undercurre',
+      repo: 'generator-template',
+      branch: 'main',
+    },
     component: {
-      owner: 'MatrixCross',
-      repo: 'Metrix-UIStarter',
+      owner: 'undercurre',
+      repo: 'UILibrary-Starter',
       branch: 'main',
     },
   },

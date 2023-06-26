@@ -1,5 +1,5 @@
 {
-  "name": "generator-matrix",
+  "name": "generator-lirh42",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "login": "npm login",
-    "publish": "npm publish --access=public",
+    "publish": "npm publish --no-git-checks --access=public",
     "commit": "git add . && git-cz",
     "eslint": "eslint --ext .js --ignore-path .gitignore --fix generators",
     "prepare": "husky install",
