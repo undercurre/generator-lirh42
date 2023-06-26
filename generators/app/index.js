@@ -3,6 +3,7 @@ const figlet = require('figlet')
 const { promisify } = require('util')
 const libconfig = require('../app/libconfig')
 const downloadGitRepo = require('download-git-repo')
+const ora = require('ora')
 
 module.exports = class extends Generator {
   // The name `constructor` is important here
@@ -160,16 +161,20 @@ module.exports = class extends Generator {
     }
   }
   async writing() {
+    const spinner = ora('loading')
     console.log(this.answers)
-    // eslint-disable-next-line no-unused-vars
     const { owner, repo, branch } =
       libconfig[this.answers.purpose][this.answers.chose] // 从用户的答案中获取 owner、repo 和 branch
-    const url = `undercurre/teick#main`
+    const url = `${owner}/${repo}#${branch}`
     const path = `./${this.answers.config.name}`
     console.log(url, path)
-    const fetchMethod = promisify(downloadGitRepo)
-
-    const res = await fetchMethod(url, path)
-    console.log(res)
+    try {
+      const fetchMethod = promisify(downloadGitRepo)
+      spinner.start()
+      await fetchMethod(url, path)
+      spinner.succeed()
+    } catch (e) {
+      spinner.fail('Request failed, refetch ...')
+    }
   }
 }
