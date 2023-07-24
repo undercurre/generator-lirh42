@@ -1,4 +1,4 @@
-var Generator = require('yeoman-generator')
+let Generator = require('yeoman-generator')
 const figlet = require('figlet')
 const { promisify } = require('util')
 const libconfig = require('../app/libconfig')
