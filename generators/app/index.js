@@ -15,6 +15,7 @@ module.exports = class extends Generator {
     // this.option('babel') // This method adds support for a `--babel` flag
   }
   async prompting() {
+    // 输出商标
     console.log(
       '\r\n' +
         figlet.textSync('Matrix', {
@@ -25,6 +26,7 @@ module.exports = class extends Generator {
           whitespaceBreak: true,
         })
     )
+    // 问候（第一段对话）
     const hello = await this.prompt([
       {
         type: 'list',
@@ -49,6 +51,7 @@ module.exports = class extends Generator {
         ],
       },
     ])
+    // 存储选择
     let chose = null
     if (hello.purpose === 'basic') {
       const basic = await this.prompt([
@@ -126,6 +129,7 @@ module.exports = class extends Generator {
       ])
       chose = tool.tool
     }
+    // 输入项目名
     const config = await this.prompt([
       {
         type: 'input',
@@ -134,6 +138,7 @@ module.exports = class extends Generator {
         default: this.appname, // Default to current folder name
       },
     ])
+    // 配置回答内容
     this.answers = {
       purpose: hello.purpose,
       chose,
@@ -141,6 +146,7 @@ module.exports = class extends Generator {
     }
   }
   async writing() {
+    // 输出loading
     const spinner = ora('loading')
     console.log(this.answers)
     const { owner, repo, branch } =
