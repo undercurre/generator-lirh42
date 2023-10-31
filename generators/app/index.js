@@ -26,109 +26,36 @@ module.exports = class extends Generator {
           whitespaceBreak: true,
         })
     )
-    // 问候（第一段对话）
-    const hello = await this.prompt([
+    // 选择模块
+    const firstChose = await this.prompt([
       {
         type: 'list',
         name: 'purpose',
-        message: 'Select your purpose',
-        choices: [
-          {
-            name: 'basic',
-            value: 'basic',
-            description: 'I need a basic template',
-          },
-          {
-            name: 'business',
-            value: 'business',
-            description: 'I need a business template',
-          },
-          {
-            name: 'tool',
-            value: 'tool',
-            description: 'I need a tool template',
-          },
-        ],
+        message: 'What do you want ?',
+        choices: Object.keys(libconfig).map((item) => {
+          return {
+            name: item,
+            value: item,
+            description: item.description,
+          }
+        }),
       },
     ])
-    // 存储选择
-    let chose = null
-    if (hello.purpose === 'basic') {
-      const basic = await this.prompt([
-        {
-          type: 'list',
-          name: 'basic',
-          message: 'Select your carrier',
-          choices: [
-            {
-              name: 'web',
-              value: 'web',
-              description: 'I need a web template',
-            },
-            {
-              name: 'app',
-              value: 'app',
-              description: 'I need a app template',
-            },
-            {
-              name: 'desktop',
-              value: 'desktop',
-              description: 'I need a desktop template',
-            },
-            {
-              name: 'miniprogram',
-              value: 'miniprogram',
-              description: 'I need a miniprogram template',
-            },
-          ],
-        },
-      ])
-      chose = basic.basic
-    }
-    if (hello.purpose === 'business') {
-      const business = await this.prompt([
-        {
-          type: 'list',
-          name: 'business',
-          message: 'Select your purpose',
-          choices: [
-            {
-              name: 'questionnaire_outline',
-              value: 'questionnaire_outline',
-              description: 'A questionnaire with strapi outline',
-            },
-            {
-              name: 'questionnaire_online',
-              value: 'questionnaire_online',
-              description: 'A questionnaire with strapi online',
-            },
-          ],
-        },
-      ])
-      chose = business.business
-    }
-    if (hello.purpose === 'tool') {
-      const tool = await this.prompt([
-        {
-          type: 'list',
-          name: 'tool',
-          message: 'Select tool type',
-          choices: [
-            {
-              name: 'cli',
-              value: 'cli',
-              description: 'A template for cli',
-            },
-            {
-              name: 'component',
-              value: 'component',
-              description: 'A template for component library',
-            },
-          ],
-        },
-      ])
-      chose = tool.tool
-    }
+    // 选择分支
+    const secondChose = await this.prompt([
+      {
+        type: 'list',
+        name: 'branch',
+        message: 'Select your preference !',
+        choices: libconfig[firstChose.purpose].children.map((item) => {
+          return {
+            name: item.key,
+            value: item.branch,
+            description: item.description,
+          }
+        }),
+      },
+    ])
     // 输入项目名
     const config = await this.prompt([
       {
@@ -140,19 +67,17 @@ module.exports = class extends Generator {
     ])
     // 配置回答内容
     this.answers = {
-      purpose: hello.purpose,
-      chose,
-      config,
+      purpose: firstChose.purpose,
+      branch: secondChose.branch,
+      projectName: config.name,
     }
   }
   async writing() {
     // 输出loading
     const spinner = ora('loading')
-    console.log(this.answers)
-    const { owner, repo, branch } =
-      libconfig[this.answers.purpose][this.answers.chose] // 从用户的答案中获取 owner、repo 和 branch
-    const url = `${owner}/${repo}#${branch}`
-    const path = `./${this.answers.config.name}`
+    console.log(`已选择${this.answers.purpose}--${this.answers.branch}`)
+    const url = `undercurre/${this.answers.purpose}#${this.answers.branch}`
+    const path = `./${this.answers.projectName}`
     console.log(url, path)
     try {
       const fetchMethod = promisify(downloadGitRepo)

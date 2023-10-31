@@ -1,36 +1,24 @@
 module.exports = {
-  basic: {
-    web: {
-      owner: 'undercurre',
-      repo: 'Vue3-FamilyBucket-Starter',
-      branch: 'main',
-    },
-    app: { owner: 'undercurre', repo: 'uni-starter', branch: 'main' },
-    miniprogram: { owner: 'undercurre', repo: 'uni-starter', branch: 'main' },
-    desktop: { owner: 'undercurre', repo: 'electron-starter', branch: 'main' },
-  },
-  business: {
-    questionnaire_outline: {
-      owner: 'undercurre',
-      repo: 'teick',
-      branch: 'main',
-    },
-    questionnaire_online: {
-      owner: 'undercurre',
-      repo: 'teick',
-      branch: 'strapi',
-    },
-  },
-  tool: {
-    cli: {
-      owner: 'undercurre',
-      repo: 'generator-template',
-      branch: 'main',
-    },
-    component: {
-      owner: 'undercurre',
-      repo: 'UILibrary-Starter',
-      branch: 'main',
-    },
+  // 跨端模板
+  PolyWeb: {
+    // 分支->平台
+    description: '一套集APP、Web、桌面、小程序于一体的开发模板',
+    children: [
+      {
+        key: 'H5',
+        branch: 'main',
+        description: 'H5模板',
+      },
+      {
+        key: 'PC',
+        branch: 'electron',
+        description: '桌面应用模板',
+      },
+      {
+        key: 'Hybrid',
+        branch: 'uni(app/mini)',
+        description: '混合H5/APP/PC桌面应用/小程序开发模板',
+      },
+    ],
   },
 }
