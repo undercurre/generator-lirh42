@@ -1,6 +1,6 @@
 {
   "name": "generator-lirh42",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "files": [
@@ -24,6 +24,7 @@
     "axios": "^1.4.0",
     "download-git-repo": "^3.0.2",
     "figlet": "^1.6.0",
+    "ora": "^4.0.0",
     "yeoman-generator": "^5.9.0"
   },
   "author": "",
@@ -37,7 +38,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "husky": ">=7",
     "lint-staged": "^13.2.2",
-    "ora": "^4.0.0",
     "prettier": "^2.8.8",
     "standard-version": "^9.5.0"
   },
